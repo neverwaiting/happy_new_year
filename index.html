@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>元旦快乐!</title>
+  <style>
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    body {
+      background-color: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 40px;
+      text-align: center;
+      color: white;
+      /* 设置字体颜色为白色 */
+      opacity: 1;
+      transition: opacity 1s, transform 1s;
+      display: block;
+      /* 添加 display 样式 */
+    }
+
+    .hidden {
+      opacity: 0;
+      transform: translate(-50%, -70%);
+    }
+
+    @keyframes zoomIn {
+      from {
+        transform: scale(0);
+      }
+
+      to {
+        transform: scale(1);
+      }
+    }
+
+    .button {
+      position: absolute;
+      top: calc(50% + 100px);
+      left: 46%;
+      transform: translateX(-50%);
+      display: inline-block;
+      padding: 10px;
+      border: 3px solid white;
+      border-radius: 20px;
+      background-color: transparent;
+      color: white;
+      font-size: 40px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+      overflow: hidden;
+      animation: breathe 2s ease-in-out infinite;
+    }
+
+    .button:hover {
+      background-color: white;
+      color: black;
+    }
+
+    .button span {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    @keyframes breathe {
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.1);
+      }
+    }
+
+    #iframeContainer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 9999;
+      background-color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container" id="textContainer"></div>
+  <div class="button" id='ready-btn'> <span>Go! >>></span> </div>
+  <!-- <div class="container"> -->
+  <!--   <button class="button">Go! >>></button> -->
+  <!-- </div> -->
+  <script>
+    function showDynamicText(callback, content, position = {x: '50%', y: '50%'}, fontSize = '40px', duration = 2000) {
+      // 获取文本容器
+      const textContainer = document.getElementById('textContainer');
+
+      // 初始化文本容器样式
+      textContainer.style.fontSize = fontSize;
+      textContainer.style.top = position.y;
+      textContainer.style.left = position.x;
+
+      // 显示文本内容
+      function showText(index) {
+        // 检查索引是否越界
+        if (index >= content.length) {
+          return;
+        }
+
+        // 清空文本容器
+        textContainer.innerHTML = '';
+        textContainer.classList.remove('hidden')
+        textContainer.innerHTML = content[index]
+        // textContainer.style.animation = 'zoomIn 1s';
+
+        // 渐隐效果
+        if (index == content.length - 1) {
+          setTimeout(() => {
+            if (callback) callback();
+          }, 1000)
+          return;
+        }
+
+        setTimeout(() => {
+          textContainer.classList.add('hidden');
+        }, duration);
+
+        // 文本逐句显示
+        setTimeout(() => {
+          showText(index + 1);
+        }, duration + 1000); // 在持续时间之后再显示下一句话
+      }
+
+      // 开始显示文本
+      setTimeout(() => showText(0), 1000)
+    }
+
+    // 定义要显示的内容
+    const content = [
+      "你好啊，小土豆！",
+      "礼物正在打包中。。。",
+      "你准备好了么？"
+    ];
+
+    document.getElementById('ready-btn').style.display = 'none';
+    // 调用函数并传递选项
+    showDynamicText(function () {
+      document.getElementById('ready-btn').style.display = 'block';
+    }, content, {x: '50%', y: '50%'}, '40px', 2000);
+
+    const playButton = document.getElementById('ready-btn');
+    const audio = new Audio('bgm.mp3'); // 替换为你的音乐文件路径
+
+    playButton.addEventListener('click', function () {
+      audio.play();
+      document.body.innerHTML = ""
+
+      // 创建并显示嵌入页面的 iframe 元素
+      const iframeContainer = document.createElement('div');
+      iframeContainer.id = 'iframeContainer';
+
+      const iframe = document.createElement('iframe');
+      iframe.src = 'happy.html';
+      iframe.style.width = '100%';
+      iframe.style.height = '100%';
+      iframe.style.border = 'none';
+
+      iframeContainer.appendChild(iframe);
+      document.body.appendChild(iframeContainer);
+
+      // 进入全屏模式
+      if (iframeContainer.requestFullscreen) {
+        iframeContainer.requestFullscreen();
+      } else if (iframeContainer.mozRequestFullScreen) {
+        iframeContainer.mozRequestFullScreen();
+      } else if (iframeContainer.webkitRequestFullscreen) {
+        iframeContainer.webkitRequestFullscreen();
+      } else if (iframeContainer.msRequestFullscreen) {
+        iframeContainer.msRequestFullscreen();
+      }
+    });
+  </script>
+</body>
+
+</html>
