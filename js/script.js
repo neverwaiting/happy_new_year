@@ -1173,6 +1173,51 @@ let sectionIdx = 0
 let startTimestamp = new Date().getTime()
 let isOver = false
 let isTips = false
+let contentIdx = 0
+let innerContents = [
+"愿你如朝阳般灿烂夺目,光芒万丈。",
+"愿你如春风般温暖怡人,悦目悦心。",
+"愿你如秋水般清澈透明,澄澈心境。",
+"愿你如蜜糖般甜美可口,口感醇厚。",
+"愿你如丝绸般柔软细腻,触感舒适。",
+"愿你如珍珠般璀璨夺目,光彩照人。",
+"愿你如星空般璀璨夺目,熠熠生辉。",
+"愿你如碧波般宁静安逸,静谧优雅。",
+"肚子里的墨水用完了，正在装填中。。。",
+"愿你前程似锦,春风得意。",
+"愿你容颜永驻,青春常在。",
+"愿你心境澄澈,情怀似水。",
+"愿你浪漫如诗,温暖如春。",
+"愿你笑容灿烂,魅力四射。",
+"愿你美貌逼人,大放异彩。",
+"愿你清丽脱俗,不染尘埃。",
+"愿你如沐春风,欣欣向荣。",
+"愿你如清泉般澄澈纯净。",
+"一下子夸这么多，机器过载了，需要休息片刻。。。",
+"愿你如晨曦般耀眼夺目。",
+"愿你如樱花般娇艳动人。",
+"愿你如雪莲般高洁无暇。",
+"愿你如琥珀般光彩夺目。",
+"愿你如月光般温柔静谧。",
+"愿你如星河般璀璨夺目。",
+"正在向AI索要赞美词中，请稍等片刻。。。",
+"愿你如彩虹般斑斓夺目。",
+"愿你如白玉般高洁无瑕。",
+"愿你如玫瑰般娇艳欲滴。",
+"愿你如海棠般香艳动人。",
+"愿你如兰花般高洁清雅。",
+"愿你如百合般圣洁高尚。",
+"愿你如梅花般傲雪凌寒。",
+"AI已经拒绝访问，只能自己绞尽脑汁了，哈哈。。。",
+"愿你如彩虹般斑斓夺目。",
+"愿你如芙蓉般亭亭玉立。",
+"愿你如桃花般桃红柳绿。",
+"愿你如牡丹般丰姿绰约。",
+"愿你如莲花般洁白无瑕。",
+"愿你如杜鹃般娇嫩欲滴。",
+"实在想不出来了，只能委屈你欣赏下烟花和背景音乐啦！",
+] 
+
 function startSequence() {
   if (isFirstSeq) {
     isFirstSeq = false;
@@ -1205,12 +1250,29 @@ function startSequence() {
   const dt = nowTimestamp - startTimestamp
   if (dt > 5000 && !isTips) {
     isTips = true
+
     showDynamicText("你可以手动点屏幕来发射烟花哦！", "40px", { x: '50%', y: '50%' }, 3000)
+
+    setTimeout(() => {
+      
+    const dt = 4000
+    showDynamicText(innerContents[contentIdx], "60px", { x: '50%', y: '70%' }, dt)
+    const timerInterval = setInterval(() => {
+      ++contentIdx
+    if (contentIdx < innerContents.length) {
+    showDynamicText(innerContents[contentIdx], "60px", { x: '50%', y: '70%' }, dt)
+    } else {
+      clearInterval(timerInterval)
+    }
+      
+    }, dt + 2000);
+    }, 4000);
+    
   }
 
   if (dt > 5 * 60 * 1000) {
     if (isOver) {
-      showDynamicText("新年快乐啊!小土豆") 
+      showDynamicText("车轱辘生日快乐!!!")
       return
     }
     else {

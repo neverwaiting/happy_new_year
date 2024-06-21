@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>元旦快乐!</title>
+  <title>生日快乐!</title>
   <style>
     html,
     body {
@@ -29,7 +29,7 @@
       color: white;
       /* 设置字体颜色为白色 */
       opacity: 1;
-      transition: opacity 1s, transform 1s;
+      transition: opacity 1.5s, transform 1.5s;
       display: block;
       /* 添加 display 样式 */
     }
@@ -49,6 +49,33 @@
       }
     }
 
+    .button1 {
+      position: absolute;
+      top: calc(50% + 100px);
+      left: 30%;
+      transform: translateX(-50%);
+      display: inline-block;
+      padding: 10px;
+      border: 3px solid white;
+      border-radius: 20px;
+      background-color: transparent;
+      color: white;
+      font-size: 40px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+      overflow: hidden;
+      animation: breathe 2s ease-in-out infinite;
+    }
+
+    .button1:hover {
+      background-color: white;
+      color: black;
+    }
+
+    .button1 span {
+      display: inline-block;
+      vertical-align: middle;
+    }
     .button {
       position: absolute;
       top: calc(50% + 100px);
@@ -102,6 +129,14 @@
 </head>
 
 <body>
+  <div id="passwd-container">
+  <span style="color: white; font-size: 30px; display: inline-block;">由于这是一份只属于车娇的礼物,在打开前需要你输入正确密码！</span>
+  <div style="border: 4px solid white; padding: 10px; background-color: transparent; border-radius: 20px;">
+    <input id="ppasswd" type="text" style="background-color: transparent; border: none; color: white; width: 300px; height: 40px; font-size: 16px; border-radius: 20px; " placeholder="请输入密码!">
+  </div>
+  <div class="button1" id='confirm-btn'> <span>确定</span> </div>
+  <div class="button" id='tip-btn'> <span>提示</span> </div>
+  </div>
   <div class="container" id="textContainer"></div>
   <div class="button" id='ready-btn'> <span>Go! >>></span> </div>
   <!-- <div class="container"> -->
@@ -154,16 +189,43 @@
 
     // 定义要显示的内容
     const content = [
-      "你好啊，小土豆！",
-      "礼物正在打包中。。。",
+      "猜对了，小脑阔终于开窍了！",
+      "没想到你那天竟然猜对了我要给你的礼物！",
+      "没错，就是烟花，礼物正在打包中。。。",
       "你准备好了么？"
     ];
 
     document.getElementById('ready-btn').style.display = 'none';
+
+    const confirmButton = document.getElementById('confirm-btn');
+    confirmButton.addEventListener('click', function () {
+      const inputEle = document.getElementById('ppasswd')
+      const text = inputEle.value
+      const correctPasswd = "车轱辘"
+      const errorTextTip = [
+        "这个娇娇就是逊啦！",
+        "山顶洞人的脑阔果然不好使！",
+        "不对，想想还有什么外号！"
+      ]
+      if (text === correctPasswd) {
+        document.getElementById("passwd-container").style.display = "none"
     // 调用函数并传递选项
     showDynamicText(function () {
       document.getElementById('ready-btn').style.display = 'block';
     }, content, {x: '50%', y: '50%'}, '40px', 2000);
+        
+      } else if (text == "") {
+        alert("你输入的是空气吗？")
+      } else {
+        const idx = Math.floor(Math.random() * errorTextTip.length)
+        alert(errorTextTip[idx])
+        inputEle.value = ""
+      }
+    })
+    const tipButton = document.getElementById('tip-btn');
+    tipButton.addEventListener('click', function () {
+      alert("想想我平时喜欢叫你什么!是外号哦")
+    })
 
     const playButton = document.getElementById('ready-btn');
     const audio = new Audio('bgm.mp3'); // 替换为你的音乐文件路径
